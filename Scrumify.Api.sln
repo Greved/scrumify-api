@@ -4,6 +4,10 @@ VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumify.Api", "src\Scrumify.Api\Scrumify.Api.csproj", "{FA0CC66E-5D01-4557-8438-777D6F18DD75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumify.Models", "Scrumify.Models\Scrumify.Models.csproj", "{9618BE52-32F5-4F5B-9A9E-4342AEF4250C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumify.DataAccess.Core", "Scrumify.DataAccess.Core\Scrumify.DataAccess.Core.csproj", "{1B01D100-88B1-44A9-ABF0-7B36E7EC5D00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +18,14 @@ Global
 		{FA0CC66E-5D01-4557-8438-777D6F18DD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA0CC66E-5D01-4557-8438-777D6F18DD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA0CC66E-5D01-4557-8438-777D6F18DD75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9618BE52-32F5-4F5B-9A9E-4342AEF4250C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9618BE52-32F5-4F5B-9A9E-4342AEF4250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9618BE52-32F5-4F5B-9A9E-4342AEF4250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9618BE52-32F5-4F5B-9A9E-4342AEF4250C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B01D100-88B1-44A9-ABF0-7B36E7EC5D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B01D100-88B1-44A9-ABF0-7B36E7EC5D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B01D100-88B1-44A9-ABF0-7B36E7EC5D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B01D100-88B1-44A9-ABF0-7B36E7EC5D00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
