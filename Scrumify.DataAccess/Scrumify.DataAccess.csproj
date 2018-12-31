@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Scrumify.Models\Scrumify.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserSupport\" />
+  </ItemGroup>
+
 </Project>
