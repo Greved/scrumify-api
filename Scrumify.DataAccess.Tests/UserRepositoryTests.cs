@@ -23,9 +23,9 @@ namespace Scrumify.DataAccess.Tests
         }
 
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
-            repository.DeleteAllAsync();
+            await repository.DeleteAllAsync();
         }
 
         [Test]
