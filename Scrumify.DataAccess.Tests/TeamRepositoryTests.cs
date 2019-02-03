@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using Scrumify.DataAccess.Core;
 using Scrumify.DataAccess.TeamSupport;
 using Scrumify.DataAccess.TestCore;
 using Scrumify.Models;
@@ -17,7 +18,7 @@ namespace Scrumify.DataAccess.Tests
 		public override void Setup()
 		{
 			base.Setup();
-			repository = new TeamRepository(DbConnectionStringProvider);
+			repository = new TeamRepository(new QueryExecuter(DbConnectionStringProvider));
 		}
 
 	    [TearDown]

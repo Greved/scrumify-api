@@ -9,11 +9,11 @@ namespace Scrumify.DataAccess.TeamSupport
 {
 	public class TeamRepository : ITeamRepository
 	{
-		private readonly IDbConnectionStringProvider dbConnectionStringProvider;
+	    private readonly QueryExecuter queryExecuter;
 
-		public TeamRepository(IDbConnectionStringProvider dbConnectionStringProvider)
+		public TeamRepository(QueryExecuter queryExecuter)
 		{
-			this.dbConnectionStringProvider = dbConnectionStringProvider;
+		    this.queryExecuter = queryExecuter;
 		}
 
 		private const string ExistsQuery = "SELECT (CASE " +
@@ -22,15 +22,14 @@ namespace Scrumify.DataAccess.TeamSupport
 		                                   "ELSE FALSE " +
 		                                   "END)";
 
-        public async Task<bool> ExistsAsync(Guid teamId)
+        public Task<bool> ExistsAsync(Guid teamId)
 		{
-			var connectionString = dbConnectionStringProvider.Get();
-			using (var connection = DbConnectionHelper.OpenConnection(connectionString))
-			{
-				var result = await connection.QuerySingleAsync<bool>(ExistsQuery, new {Id = teamId}).ConfigureAwait(false);
-				Log.Information("Team {TeamId} exists? {Exist}", teamId, result);
-				return result;
-			}
+		    return queryExecuter.QueryAsync(async connection =>
+		    {
+		        var result = await connection.QuerySingleAsync<bool>(ExistsQuery, new { Id = teamId }).ConfigureAwait(false);
+		        Log.Information("Team {TeamId} exists? {Exist}", teamId, result);
+		        return result;
+            });
         }
 
 		private const string SaveQuery = "INSERT INTO team " +
@@ -38,29 +37,27 @@ namespace Scrumify.DataAccess.TeamSupport
 		                                 "VALUES " +
 		                                 "(@Id, @Name)";
 
-        public async Task SaveAsync(Team team)
+        public Task SaveAsync(Team team)
 		{
 			if (team == null)
                 throw new ArgumentNullException(nameof(team));
 
-			var connectionString = dbConnectionStringProvider.Get();
-		    using (var connection = DbConnectionHelper.OpenConnection(connectionString))
+		    return queryExecuter.QueryAsync(async connection =>
 		    {
 		        var saveResult = await connection.ExecuteAsync(SaveQuery, team).ConfigureAwait(false);
 		        Log.Information("Team {TeamId} and {TeamName} inserted with result {SaveResult}", team.Id, team.Name, saveResult);
-		    }
-		}
+            });
+        }
 
 		private const string DeleteAllQuery = "DELETE FROM team";
 
-        public async Task DeleteAllAsync()
+        public Task DeleteAllAsync()
 		{
-			var connectionString = dbConnectionStringProvider.Get();
-			using (var connection = DbConnectionHelper.OpenConnection(connectionString))
-			{
-				var result = await connection.ExecuteAsync(DeleteAllQuery).ConfigureAwait(false);
-				Log.Information("All teams were deleted with result {result}", result);
-			}
+		    return queryExecuter.QueryAsync(async connection =>
+		    {
+		        var result = await connection.ExecuteAsync(DeleteAllQuery).ConfigureAwait(false);
+		        Log.Information("All teams were deleted with result {result}", result);
+            });
         }
 	}
 }

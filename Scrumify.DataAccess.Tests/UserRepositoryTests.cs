@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using Scrumify.DataAccess.Core;
 using Scrumify.DataAccess.TestCore;
 using Scrumify.DataAccess.UserSupport;
 using Scrumify.Models;
@@ -17,17 +19,17 @@ namespace Scrumify.DataAccess.Tests
         public override void Setup()
         {
             base.Setup();
-            repository = new UserRepository(DbConnectionStringProvider);
+            repository = new UserRepository(new QueryExecuter(DbConnectionStringProvider));
         }
 
         [TearDown]
         public void TearDown()
         {
-            repository.DeleteAll();
+            repository.DeleteAllAsync();
         }
 
         [Test]
-        public void Save_Should_Save_All_Fields_Of_User()
+        public async Task SaveAsync_Should_Save_All_Fields_Of_User()
         {
             var userId = Guid.NewGuid();
             var outerId = "outerId1";
@@ -38,14 +40,14 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId,
                 TeamId = Guid.NewGuid()
             };
-            repository.Save(user);
+            await repository.SaveAsync(user).ConfigureAwait(false);
 
-            var actual = repository.Read(userId);
+            var actual = await repository.ReadAsync(userId).ConfigureAwait(false);
             actual.Should().BeEquivalentTo(user);
         }
 
         [Test]
-        public void ReadByOuterId_Should_Return_Specified_User()
+        public async Task ReadByOuterIdAsync_Should_Return_Specified_User()
         {
             var userId = Guid.NewGuid();
             var outerId = "outerId1";
@@ -57,14 +59,14 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId,
                 TeamId = teamId
             };
-            repository.Save(user);
+            await repository.SaveAsync(user).ConfigureAwait(false);
 
-            var actual = repository.Read(outerId, teamId);
+            var actual = await repository.ReadAsync(outerId, teamId).ConfigureAwait(false);
             actual.Should().BeEquivalentTo(user);
         }
 
         [Test]
-        public void ReadId_Should_Return_UserId_And_Filter_By_OuterId()
+        public async Task ReadIdAsync_Should_Return_UserId_And_Filter_By_OuterId()
         {
             var userId1 = Guid.NewGuid();
             var outerId1 = "outerId1";
@@ -76,7 +78,7 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId1,
                 TeamId = teamId
             };
-            repository.Save(user);
+            await repository.SaveAsync(user).ConfigureAwait(false);
 
             var userId2 = Guid.NewGuid();
             var outerId2 = "outerId2";
@@ -87,14 +89,14 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId2,
                 TeamId = teamId
             };
-            repository.Save(user2);
+            await repository.SaveAsync(user2).ConfigureAwait(false);
 
-            var actual = repository.ReadId(outerId2, teamId);
+            var actual = await repository.ReadIdAsync(outerId2, teamId).ConfigureAwait(false);
             actual.Should().Be(userId2);
         }
 
         [Test]
-        public void ReadId_Should_Return_UserId_And_Filter_By_TeamId()
+        public async Task ReadIdAsync_Should_Return_UserId_And_Filter_By_TeamId()
         {
             var userId1 = Guid.NewGuid();
             var outerId1 = "outerId1";
@@ -106,7 +108,7 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId1,
                 TeamId = teamId1
             };
-            repository.Save(user);
+            await repository.SaveAsync(user).ConfigureAwait(false);
 
             var userId2 = Guid.NewGuid();
             var teamId2 = Guid.NewGuid();
@@ -117,28 +119,28 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId1,
                 TeamId = teamId2
             };
-            repository.Save(user2);
+            await repository.SaveAsync(user2).ConfigureAwait(false);
 
-            var actual = repository.ReadId(outerId1, teamId1);
+            var actual = await repository.ReadIdAsync(outerId1, teamId1).ConfigureAwait(false);
             actual.Should().Be(userId1);
         }
 
         [Test]
-        public void ReadId_Should_Return_Null_For_Id_Of_Absent_User()
+        public async Task ReadIdAsync_Should_Return_Null_For_Id_Of_Absent_User()
         {
             var outerId = "outerId1";
 
-            var actual = repository.Read(outerId, Guid.NewGuid());
+            var actual = await repository.ReadAsync(outerId, Guid.NewGuid()).ConfigureAwait(false);
             actual.Should().BeNull();
         }
 
         [Test]
-        public void ReadById_Should_Return_Null_For_Id_Of_Absent_User()
+        public async Task ReadByIdAsync_Should_Return_Null_For_Id_Of_Absent_User()
         {
             var userId = Guid.NewGuid();
             try
             {
-                var actual = repository.Read(userId);
+                var actual = await repository.ReadAsync(userId).ConfigureAwait(false);
                 actual.Should().BeNull();
             }
             catch (Exception e)
@@ -147,32 +149,8 @@ namespace Scrumify.DataAccess.Tests
             }
         }
 
-        //[Test]
-        //public void Save_Should_Throw_When_Save_Two_Persons_With_The_Same_OuterId_And_TeamId()
-        //{
-        //    var outerId = "outerId1";
-        //    var teamId = Guid.NewGuid();
-        //    var user1 = new User
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        Name = "user1",
-        //        OuterId = outerId,
-        //        TeamId = teamId
-        //    };
-        //    repository.Save(user1);
-        //    var user2 = new User
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        Name = "user2",
-        //        OuterId = outerId,
-        //        TeamId = teamId
-        //    };
-        //    Action saveDuplicateUserAction = () => repository.Save(user2);
-        //    saveDuplicateUserAction.Should().Throw<UniqueConstraintException>();
-        //}
-
         [Test]
-        public void ReadIdsByOuterId_Should_Return_All_Users_With_Such_OuterId()
+        public async Task ReadIdsByOuterIdAsync_Should_Return_All_Users_With_Such_OuterId()
         {
             var outerId = "outerId1";
             var teamId1 = Guid.NewGuid();
@@ -184,7 +162,7 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId,
                 TeamId = teamId1
             };
-            repository.Save(user1);
+            await repository.SaveAsync(user1).ConfigureAwait(false);
             var teamId2 = Guid.NewGuid();
             var userId2 = Guid.NewGuid();
             var user2 = new User
@@ -194,7 +172,7 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId,
                 TeamId = teamId2
             };
-            repository.Save(user2);
+            await repository.SaveAsync(user2).ConfigureAwait(false);
             var outerId2 = "outerId2";
             var userId3 = Guid.NewGuid();
             var user3 = new User
@@ -204,9 +182,9 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId2,
                 TeamId = teamId1
             };
-            repository.Save(user3);
+            await repository.SaveAsync(user3).ConfigureAwait(false);
 
-            var actual = repository.ReadInfosByOuterId(outerId);
+            var actual = await repository.ReadInfosByOuterIdAsync(outerId).ConfigureAwait(false);
             actual.Should().BeEquivalentTo(new List<UserAndTeamInfo>
             {
                 new UserAndTeamInfo{Id = userId1, TeamId = teamId1}, new UserAndTeamInfo{Id = userId2, TeamId = teamId2}
@@ -214,7 +192,7 @@ namespace Scrumify.DataAccess.Tests
         }
 
         [Test]
-        public void ReadIdsByOuterId_Should_Return_Empty_List_If_There_Not_Such_Users()
+        public async Task ReadIdsByOuterIdAsync_Should_Return_Empty_List_If_There_Not_Such_Users()
         {
             var outerId = "outerId1";
             var teamId1 = Guid.NewGuid();
@@ -226,16 +204,16 @@ namespace Scrumify.DataAccess.Tests
                 OuterId = outerId,
                 TeamId = teamId1
             };
-            repository.Save(user1);
+            await repository.SaveAsync(user1).ConfigureAwait(false);
 
-            var actual = repository.ReadInfosByOuterId("another outerId");
+            var actual = await repository.ReadInfosByOuterIdAsync("another outerId").ConfigureAwait(false);
             actual.Should().BeEmpty();
         }
 
         [Test]
-        public void ReadIdsByOuterId_Should_Return_Empty_List_If_There_No_Users_At_All()
+        public async Task ReadIdsByOuterIdAsync_Should_Return_Empty_List_If_There_No_Users_At_All()
         {
-            var actual = repository.ReadInfosByOuterId("another outerId");
+            var actual = await repository.ReadInfosByOuterIdAsync("another outerId").ConfigureAwait(false);
             actual.Should().BeEmpty();
         }
     }
