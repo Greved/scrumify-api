@@ -59,7 +59,7 @@ namespace Scrumify.DataAccess.TeamSupport
 			using (var connection = DbConnectionHelper.OpenConnection(connectionString))
 			{
 				var result = await connection.ExecuteAsync(DeleteAllQuery).ConfigureAwait(false);
-				Log.Information("All teams were deleted with result {}", result);
+				Log.Information("All teams were deleted with result {result}", result);
 			}
         }
 	}

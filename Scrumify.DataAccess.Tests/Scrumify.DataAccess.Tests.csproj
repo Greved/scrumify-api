@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Greved.Core\Greved.Core.csproj" />
     <ProjectReference Include="..\Scrumify.DataAccess.TestCore\Scrumify.DataAccess.TestCore.csproj" />
     <ProjectReference Include="..\Scrumify.DataAccess\Scrumify.DataAccess.csproj" />
   </ItemGroup>
