@@ -21,8 +21,4 @@
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Scrumify.DataAccess.Core\Scrumify.DataAccess.Core.csproj" />
-  </ItemGroup>
 </Project>

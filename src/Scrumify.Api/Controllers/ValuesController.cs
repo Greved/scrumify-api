@@ -1,18 +1,14 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Scrumify.DataAccess.Core;
-using Serilog;
 
 namespace Scrumify.Api.Controllers
 {
 	[Route("api/[controller]")]
 	public class ValuesController : ControllerBase
 	{
-		private readonly IDbConnectionStringProvider dbConnectionStringProvider;
-
-		public ValuesController(IDbConnectionStringProvider dbConnectionStringProvider)
+		public ValuesController()
 		{
-			this.dbConnectionStringProvider = dbConnectionStringProvider;
 		}
 
 		// GET: api/values
@@ -26,7 +22,7 @@ namespace Scrumify.Api.Controllers
 		[HttpGet("{id}")]
 		public string Get(int id)
 		{
-			return dbConnectionStringProvider.Get();
+            return string.Empty;
 		}
 	}
 }

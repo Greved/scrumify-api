@@ -1,6 +1,4 @@
 using DryIoc;
-using Scrumify.Api.DataAccess;
-using Scrumify.DataAccess.Core;
 
 namespace Scrumify.Api.DI
 {
@@ -8,7 +6,6 @@ namespace Scrumify.Api.DI
 	{
 		public CompositionRoot(IRegistrator registrator)
 		{
-			registrator.Register<IDbConnectionStringProvider, DbConnectionStringProvider>();
 		}
     }
 }
