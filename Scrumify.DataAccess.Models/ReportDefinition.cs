@@ -13,6 +13,9 @@ namespace Scrumify.DataAccess.Models
 
         public ReportDefinitionItem[] Items { get; set; }
 
-        //TODO: ToString method
+        public override string ToString()
+        {
+            return $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Items)}: {Items?.Length}";
+        }
     }
 }
