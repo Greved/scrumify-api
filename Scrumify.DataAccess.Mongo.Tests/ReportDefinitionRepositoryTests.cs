@@ -16,7 +16,8 @@ namespace Scrumify.DataAccess.Mongo.Tests
         public override void Setup()
         {
             base.Setup();
-            repository = new ReportDefinitionRepository(MongoStorage);
+            var collectionProvider = new MongoCollectionProvider<ReportDefinition>(MongoStorage);
+            repository = new ReportDefinitionRepository(collectionProvider);
         }
 
         [TearDown]

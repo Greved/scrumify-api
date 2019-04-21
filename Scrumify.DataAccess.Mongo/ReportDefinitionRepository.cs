@@ -7,13 +7,14 @@ using Serilog;
 
 namespace Scrumify.DataAccess.Mongo
 {
+    //TODO: create common mongo repository with save, read, delete all methods for generic entity?
     public class ReportDefinitionRepository: IReportDefinitionRepository
     {
-        private readonly IMongoStorage mongoStorage;
+        private readonly IMongoCollectionProvider<ReportDefinition> mongoCollectionProvider;
 
-        public ReportDefinitionRepository(IMongoStorage mongoStorage)
+        public ReportDefinitionRepository(IMongoCollectionProvider<ReportDefinition> mongoCollectionProvider)
         {
-            this.mongoStorage = mongoStorage;
+            this.mongoCollectionProvider = mongoCollectionProvider;
         }
 
         public async Task<string> SaveAsync(ReportDefinition definition)
@@ -25,7 +26,7 @@ namespace Scrumify.DataAccess.Mongo
                     definition.Id = ObjectId.GenerateNewId().ToString();
                 }
 
-                var replaceOneResult = await GetCollection()
+                var replaceOneResult = await mongoCollectionProvider.GetCollection()
                     .ReplaceOneAsync(n => n.Id.Equals(definition.Id)
                         , definition
                         , new UpdateOptions { IsUpsert = true });
@@ -44,7 +45,7 @@ namespace Scrumify.DataAccess.Mongo
             try
             {
                 var filter = Builders<ReportDefinition>.Filter.Eq(s => s.Id, id);
-                var result = await GetCollection()
+                var result = await mongoCollectionProvider.GetCollection()
                     .Find(filter)
                     .FirstOrDefaultAsync();
                 return result;
@@ -60,7 +61,7 @@ namespace Scrumify.DataAccess.Mongo
         {
             try
             {
-                var deleteResult = await GetCollection().DeleteManyAsync(new BsonDocument());
+                var deleteResult = await mongoCollectionProvider.GetCollection().DeleteManyAsync(new BsonDocument());
                 return deleteResult.DeletedCount;
             }
             catch (Exception ex)
@@ -68,11 +69,6 @@ namespace Scrumify.DataAccess.Mongo
                 Log.Error(ex, "Delete all reportDefinitions failed");
                 throw;
             }
-        }
-
-        private IMongoCollection<ReportDefinition> GetCollection()
-        {
-            return mongoStorage.GetCollection<ReportDefinition>("ReportDefinition");
         }
     }
 }

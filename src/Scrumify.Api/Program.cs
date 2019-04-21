@@ -14,7 +14,8 @@ namespace Scrumify.Api
 			    .MinimumLevel.Debug()
 			    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
 			    .Enrich.FromLogContext()
-			    .WriteTo.Console() //TODO: add file logger!
+			    .WriteTo.Console()
+                .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
 			    .CreateLogger();
 
 		    try
@@ -34,8 +35,7 @@ namespace Scrumify.Api
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+            WebHost.CreateDefaultBuilder<Startup>(args)
                 .UseSerilog();
     }
 }

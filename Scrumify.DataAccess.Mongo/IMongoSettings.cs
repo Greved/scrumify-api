@@ -2,7 +2,7 @@ namespace Scrumify.DataAccess.Mongo
 {
     public interface IMongoSettings
     {
-        string MongoConnectionString { get; }
-        string DatabaseName { get; }
+        string ConnectionString { get; set; }
+        string Database { get; set; }
     }
 }

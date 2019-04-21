@@ -18,7 +18,15 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Scrumify.DataAccess.Models\Scrumify.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\..\Scrumify.DataAccess.Mongo\Scrumify.DataAccess.Mongo.csproj" />
+    <ProjectReference Include="..\..\Scrumify.DataAccess\Scrumify.DataAccess.csproj" />
   </ItemGroup>
 </Project>

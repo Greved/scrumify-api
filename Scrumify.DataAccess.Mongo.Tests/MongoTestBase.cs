@@ -10,7 +10,7 @@ namespace Scrumify.DataAccess.Mongo.Tests
         [OneTimeSetUp]
         public virtual void Setup()
         {
-            MongoStorage = new MongoStorage(new MongoTestSettings());
+            MongoStorage = new MongoStorage(new MongoTestSettingsOptions());
         }
     }
 }
