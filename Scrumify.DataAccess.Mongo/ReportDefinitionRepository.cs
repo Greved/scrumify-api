@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -11,13 +13,35 @@ namespace Scrumify.DataAccess.Mongo
     public class ReportDefinitionRepository: IReportDefinitionRepository
     {
         private readonly IMongoCollectionProvider<ReportDefinition> mongoCollectionProvider;
+        private readonly IMongoStorage mongoStorage;
 
-        public ReportDefinitionRepository(IMongoCollectionProvider<ReportDefinition> mongoCollectionProvider)
+        public ReportDefinitionRepository(IMongoCollectionProvider<ReportDefinition> mongoCollectionProvider, IMongoStorage mongoStorage)
         {
             this.mongoCollectionProvider = mongoCollectionProvider;
+            this.mongoStorage = mongoStorage;
         }
 
-        public async Task<string> SaveAsync(ReportDefinition definition)
+        public async Task<IList<ReportDefinitionListItem>> ReadAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var projection = Builders<ReportDefinitionListItem>.Projection
+                    .Include(x => x.Id)
+                    .Include(x => x.Name);
+                var result = await mongoStorage.GetCollection<ReportDefinitionListItem>(nameof(ReportDefinition))
+                    .Find(new BsonDocument())
+                    .Project<ReportDefinitionListItem>(projection)
+                    .ToListAsync(cancellationToken);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Read all of definitions failed");
+                throw;
+            }
+        }
+
+        public async Task<string> SaveAsync(ReportDefinition definition, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -29,7 +53,8 @@ namespace Scrumify.DataAccess.Mongo
                 var replaceOneResult = await mongoCollectionProvider.GetCollection()
                     .ReplaceOneAsync(n => n.Id.Equals(definition.Id)
                         , definition
-                        , new UpdateOptions { IsUpsert = true });
+                        , new UpdateOptions { IsUpsert = true }
+                        , cancellationToken);
 
                 return replaceOneResult.UpsertedId?.AsNullableObjectId?.ToString();
             }
@@ -40,14 +65,14 @@ namespace Scrumify.DataAccess.Mongo
             }
         }
 
-        public async Task<ReportDefinition> ReadAsync(string id)
+        public async Task<ReportDefinition> ReadAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var filter = Builders<ReportDefinition>.Filter.Eq(s => s.Id, id);
                 var result = await mongoCollectionProvider.GetCollection()
                     .Find(filter)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(cancellationToken);
                 return result;
             }
             catch (Exception ex)
@@ -57,11 +82,11 @@ namespace Scrumify.DataAccess.Mongo
             }
         }
 
-        public async Task<long> DeleteAllAsync()
+        public async Task<long> DeleteAllAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var deleteResult = await mongoCollectionProvider.GetCollection().DeleteManyAsync(new BsonDocument());
+                var deleteResult = await mongoCollectionProvider.GetCollection().DeleteManyAsync(new BsonDocument(), cancellationToken);
                 return deleteResult.DeletedCount;
             }
             catch (Exception ex)

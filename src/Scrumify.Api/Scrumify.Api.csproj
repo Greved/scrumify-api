@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="2.0.1" />
+    <PackageReference Include="FluentValidation" Version="8.2.3" />
+    <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.1.0" />
@@ -25,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Greved.Core\Greved.Core.csproj" />
+    <ProjectReference Include="..\..\Scrumify.Api.Client.Models\Scrumify.Api.Client.Models.csproj" />
     <ProjectReference Include="..\..\Scrumify.DataAccess.Models\Scrumify.DataAccess.Models.csproj" />
     <ProjectReference Include="..\..\Scrumify.DataAccess.Mongo\Scrumify.DataAccess.Mongo.csproj" />
     <ProjectReference Include="..\..\Scrumify.DataAccess\Scrumify.DataAccess.csproj" />

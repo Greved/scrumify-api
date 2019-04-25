@@ -12,7 +12,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumify.DataAccess.Models"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumify.DataAccess.Mongo", "Scrumify.DataAccess.Mongo\Scrumify.DataAccess.Mongo.csproj", "{547DAD30-DC6B-43DA-8787-3C0220B26321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumify.DataAccess.Mongo.Tests", "Scrumify.DataAccess.Mongo.Tests\Scrumify.DataAccess.Mongo.Tests.csproj", "{D85849AD-E723-44EE-B33E-5A6144348B6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumify.DataAccess.Mongo.Tests", "Scrumify.DataAccess.Mongo.Tests\Scrumify.DataAccess.Mongo.Tests.csproj", "{D85849AD-E723-44EE-B33E-5A6144348B6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scrumify.Api.Client", "Scrumify.Api.Client", "{122EBEBC-E610-482E-9B97-01E00BB0DBC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumify.Api.Client.Models", "Scrumify.Api.Client.Models\Scrumify.Api.Client.Models.csproj", "{B88339DE-0C89-465B-B456-D3582A01F7D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,17 +44,20 @@ Global
 		{547DAD30-DC6B-43DA-8787-3C0220B26321}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{547DAD30-DC6B-43DA-8787-3C0220B26321}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{547DAD30-DC6B-43DA-8787-3C0220B26321}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1887A7C1-BB57-4BCB-93FF-FB27C1FFA6EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1887A7C1-BB57-4BCB-93FF-FB27C1FFA6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1887A7C1-BB57-4BCB-93FF-FB27C1FFA6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1887A7C1-BB57-4BCB-93FF-FB27C1FFA6EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D85849AD-E723-44EE-B33E-5A6144348B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D85849AD-E723-44EE-B33E-5A6144348B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D85849AD-E723-44EE-B33E-5A6144348B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D85849AD-E723-44EE-B33E-5A6144348B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B88339DE-0C89-465B-B456-D3582A01F7D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B88339DE-0C89-465B-B456-D3582A01F7D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B88339DE-0C89-465B-B456-D3582A01F7D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B88339DE-0C89-465B-B456-D3582A01F7D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B88339DE-0C89-465B-B456-D3582A01F7D8} = {122EBEBC-E610-482E-9B97-01E00BB0DBC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {713E8920-7BEC-4180-8ADB-9EE297C445A5}

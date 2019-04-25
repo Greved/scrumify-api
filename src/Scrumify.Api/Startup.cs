@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Scrumify.Api.DI;
+using Scrumify.Api.Infrastructure.DI;
+using Scrumify.Api.Infrastructure.Filters;
 using Scrumify.DataAccess.Mongo;
 
 namespace Scrumify.Api
@@ -21,7 +22,7 @@ namespace Scrumify.Api
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvcCore()
+                .AddMvcCore(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
                 .AddCors()
                 .AddJsonFormatters();
 
@@ -29,8 +30,9 @@ namespace Scrumify.Api
 
             services.Configure<IMongoSettings>(mongoConnectionSection);
 
-            var container = new Container().WithDependencyInjectionAdapter(services).ConfigureServiceProvider<CompositionRoot>();
-	        return container;
+            var container = new Container();
+            var serviceProvider = container.WithDependencyInjectionAdapter(services).ConfigureServiceProvider<CompositionRoot>();
+            return serviceProvider;
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
