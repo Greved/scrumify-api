@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Greved.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Scrumify.Api.Business.ReportDefinition.DeleteAll;
 using Scrumify.Api.Business.ReportDefinition.Save;
 using Scrumify.Api.Client.Models.ReportDefinition;
 using Scrumify.Api.Client.Models.ReportDefinition.List;
@@ -26,7 +27,7 @@ namespace Scrumify.Api.Controllers
 
         // GET: api/report-definition
         [HttpGet]
-        public async Task<IEnumerable<ReportDefinitionListItemDto>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<IList<ReportDefinitionListItemDto>>> Get(CancellationToken cancellationToken)
         {
             var storedListItems = await reportDefinitionRepository.ReadAsync(cancellationToken);
             var clientListItems = storedListItems
@@ -35,13 +36,21 @@ namespace Scrumify.Api.Controllers
             return clientListItems;
         }
 
-        // PUT: api/report-definition
-        [HttpPut]
+        // POST: api/report-definition
+        [HttpPost]
         public async Task<ActionResult<string>> Save([FromBody]ReportDefinitionDto reportDefinition, CancellationToken cancellationToken)
         {
             var command = new SaveReportDefinitionCommand(reportDefinition);
             var definitionId = await mediator.Send(command, cancellationToken);
             return Ok(definitionId);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<long>> DeleteAll(CancellationToken cancellationToken)
+        {
+            var command = new DeleteAllReportDefinitionsCommand();
+            var deletedCount = await mediator.Send(command, cancellationToken);
+            return Ok(deletedCount);
         }
     }
 }

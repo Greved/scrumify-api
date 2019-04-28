@@ -1,6 +1,7 @@
 using DryIoc;
 using Scrumify.Api.Business.Common;
 using Scrumify.Api.Business.ReportDefinition;
+using Scrumify.Core.DI;
 using Scrumify.DataAccess;
 using Scrumify.DataAccess.Mongo;
 

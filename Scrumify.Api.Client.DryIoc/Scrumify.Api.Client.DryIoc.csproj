@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Scrumify.Api.Client\Scrumify.Api.Client.csproj" />
+    <ProjectReference Include="..\Scrumify.Core.DI\Scrumify.Core.DI.csproj" />
+  </ItemGroup>
+
+</Project>

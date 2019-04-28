@@ -1,6 +1,6 @@
 using DryIoc;
 
-namespace Scrumify.Api.Infrastructure.DI
+namespace Scrumify.Core.DI
 {
     public interface IModule
     {

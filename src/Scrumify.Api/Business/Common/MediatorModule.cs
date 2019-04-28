@@ -1,7 +1,7 @@
 using DryIoc;
 using MediatR;
 using Scrumify.Api.Business.Common.Behaviors;
-using Scrumify.Api.Infrastructure.DI;
+using Scrumify.Core.DI;
 
 namespace Scrumify.Api.Business.Common
 {

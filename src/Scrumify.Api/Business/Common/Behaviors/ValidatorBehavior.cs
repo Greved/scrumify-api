@@ -8,7 +8,6 @@ using FluentValidation.Results;
 using Greved.Core;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Scrumify.Api.Business.Common.Exceptions;
 
 namespace Scrumify.Api.Business.Common.Behaviors
 {
