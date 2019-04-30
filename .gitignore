@@ -194,5 +194,7 @@ ModelManifest.xml
 .vscode
 project.lock.json
 
+**/logs/*
+
 node_modules
 **/wwwroot/**/*
