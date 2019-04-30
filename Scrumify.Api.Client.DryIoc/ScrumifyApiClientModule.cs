@@ -1,4 +1,5 @@
 using DryIoc;
+using Scrumify.Api.Client.CheckResponse;
 using Scrumify.Core.DI;
 
 namespace Scrumify.Api.Client.DryIoc
@@ -9,6 +10,7 @@ namespace Scrumify.Api.Client.DryIoc
         {
             builder.Register<IScrumifyApiClient, ScrumifyApiClient>();
             builder.Register<IReportDefinitionClient, ReportDefinitionClient>();
+            builder.Register<IScrumifyApiClientResponseChecker, ScrumifyApiClientResponseChecker>();
         }
     }
 }

@@ -43,13 +43,13 @@ namespace Scrumify.Api.Infrastructure.Filters
                 var problemDetails = new ValidationProblemDetails()
                 {
                     Instance = context.HttpContext.Request.Path,
-                    Status = StatusCodes.Status400BadRequest,
+                    Status = StatusCodes.Status422UnprocessableEntity,
                     Detail = validationException.Message
                 };
-                problemDetails.Errors.Add("ApiValidations", validationException.Errors.Select(x => x.ToString()).ToArray());
+                problemDetails.Errors.Add("apiValidations", validationException.Errors.Select(x => x.ToString()).ToArray());
 
-                context.Result = new BadRequestObjectResult(problemDetails);
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Result = new ValidationErrorObjectResult(problemDetails);
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
             }
             else
             {

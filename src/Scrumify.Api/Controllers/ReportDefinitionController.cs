@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Greved.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Scrumify.Api.Business.Common.Exceptions;
 using Scrumify.Api.Business.ReportDefinition.DeleteAll;
 using Scrumify.Api.Business.ReportDefinition.Save;
 using Scrumify.Api.Client.Models.ReportDefinition;
