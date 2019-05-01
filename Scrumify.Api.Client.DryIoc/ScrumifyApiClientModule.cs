@@ -1,5 +1,5 @@
 using DryIoc;
-using Scrumify.Api.Client.CheckResponse;
+using Scrumify.Api.Client.Core.CheckResponse;
 using Scrumify.Core.DI;
 
 namespace Scrumify.Api.Client.DryIoc

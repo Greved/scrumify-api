@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Scrumify.Api.Client.Exceptions
+namespace Scrumify.Api.Client.Core.Exceptions
 {
     public class ScrumifyApiClientValidationException : Exception
     {

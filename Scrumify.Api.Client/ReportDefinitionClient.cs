@@ -1,63 +1,42 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Scrumify.Api.Client.CheckResponse;
+using Scrumify.Api.Client.Core;
+using Scrumify.Api.Client.Core.CheckResponse;
 using Scrumify.Api.Client.Models.ReportDefinition;
 using Scrumify.Api.Client.Models.ReportDefinition.List;
 
 namespace Scrumify.Api.Client
 {
-    public class ReportDefinitionClient : IReportDefinitionClient
+    public class ReportDefinitionClient : ScrumifyApiClientBase, IReportDefinitionClient
     {
-        private readonly HttpClient httpClient;
-        //TODO: add logging
-        private readonly ILogger<ReportDefinitionClient> logger;
-        private readonly IScumifyApiClientSettings settings;
-        private readonly IScrumifyApiClientResponseChecker responseChecker;
-
         public ReportDefinitionClient(HttpClient httpClient,
-            ILogger<ReportDefinitionClient> logger,
-            IScumifyApiClientSettings settings,
-            IScrumifyApiClientResponseChecker responseChecker)
+                                      IScumifyApiClientSettings settings,
+                                      IScrumifyApiClientResponseChecker responseChecker)
+            : base(httpClient, settings, responseChecker)
         {
-            this.httpClient = httpClient;
-            this.logger = logger;
-            this.settings = settings;
-            this.responseChecker = responseChecker;
         }
 
-        public async Task<IList<ReportDefinitionListItemDto>> GetAsync()
+        public Task<IList<ReportDefinitionListItemDto>> GetAsync(CancellationToken token = default(CancellationToken))
         {
-            var response = await httpClient.GetAsync($"{settings.BaseUrl}api/report-definition");
-            await responseChecker.EnsureSuccessAsync(response);
-            var data = await response.Content.ReadAsStringAsync();
-
-            var listItems = !string.IsNullOrEmpty(data) ? JsonConvert.DeserializeObject<List<ReportDefinitionListItemDto>>(data) : null;
-
-            return listItems;
+            return GetAsync<IList<ReportDefinitionListItemDto>>($"{Settings.BaseUrl}api/report-definition", token);
         }
 
-        public async Task<string> SaveAsync(ReportDefinitionDto reportDefinition)
+        public Task<string> SaveAsync(ReportDefinitionDto reportDefinition, CancellationToken token = default(CancellationToken))
         {
-            var definitionContent = new StringContent(JsonConvert.SerializeObject(reportDefinition), System.Text.Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync($"{settings.BaseUrl}api/report-definition", definitionContent);
-            await responseChecker.EnsureSuccessAsync(response);
-
-            var definitionId = await response.Content.ReadAsStringAsync();
-            return definitionId;
+            return PostAsync(reportDefinition, $"{Settings.BaseUrl}api/report-definition",
+                x => x, token);
         }
 
-        public async Task<long> DeleteAllAsync()
+        public Task<long> DeleteAllAsync(CancellationToken token = default(CancellationToken))
         {
-            var response = await httpClient.DeleteAsync($"{settings.BaseUrl}api/report-definition");
-            await responseChecker.EnsureSuccessAsync(response);
-
-            var stringDeletedCount = await response.Content.ReadAsStringAsync();
-            long.TryParse(stringDeletedCount, out var deletedCount);
-            return deletedCount;
+            return DeleteAsync($"{Settings.BaseUrl}api/report-definition", (stringData) =>
+            {
+                long.TryParse(stringData, out var deletedCount);
+                return deletedCount;
+            }, token);
         }
     }
 }

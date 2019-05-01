@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Scrumify.Api.Client.Exceptions
+namespace Scrumify.Api.Client.Core.Exceptions
 {
     public class ScrumifyApiClientException: Exception
     {

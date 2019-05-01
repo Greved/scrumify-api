@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MongoDB.Bson;
 using NUnit.Framework;
-using Scrumify.Api.Client.Exceptions;
+using Scrumify.Api.Client.Core.Exceptions;
 using Scrumify.Api.Client.Models.ReportDefinition;
 using Scrumify.Api.Client.Models.ReportDefinition.List;
 

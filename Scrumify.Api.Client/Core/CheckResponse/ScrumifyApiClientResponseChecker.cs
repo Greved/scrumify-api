@@ -5,9 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Scrumify.Api.Client.Exceptions;
+using Scrumify.Api.Client.Core.Exceptions;
 
-namespace Scrumify.Api.Client.CheckResponse
+namespace Scrumify.Api.Client.Core.CheckResponse
 {
     public class ScrumifyApiClientResponseChecker : IScrumifyApiClientResponseChecker
     {
